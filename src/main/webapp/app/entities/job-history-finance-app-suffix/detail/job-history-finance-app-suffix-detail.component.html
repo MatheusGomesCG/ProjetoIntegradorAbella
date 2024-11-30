@@ -1,0 +1,70 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (jobHistory(); as jobHistoryRef) {
+      <div>
+        <h2 data-cy="jobHistoryDetailsHeading"><span jhiTranslate="serviceApp.jobHistory.detail.title">Job History</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">Código</span></dt>
+          <dd>
+            <span>{{ jobHistoryRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.jobHistory.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ jobHistoryRef.startDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.jobHistory.endDate">End Date</span></dt>
+          <dd>
+            <span>{{ jobHistoryRef.endDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.jobHistory.language">Language</span></dt>
+          <dd>
+            <span [jhiTranslate]="'serviceApp.Language.' + (jobHistoryRef.language ?? 'null')">{{
+              { null: '', PORTUGUESE: 'PORTUGUESE', ENGLISH: 'ENGLISH' }[jobHistoryRef.language ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.jobHistory.job">Job</span></dt>
+          <dd>
+            @if (jobHistory()!.job) {
+              <div>
+                <a [routerLink]="['/job-finance-app-suffix', jobHistory()!.job?.id, 'view']">{{ jobHistoryRef.job?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="serviceApp.jobHistory.department">Department</span></dt>
+          <dd>
+            @if (jobHistory()!.department) {
+              <div>
+                <a [routerLink]="['/department-finance-app-suffix', jobHistory()!.department?.id, 'view']">{{
+                  jobHistoryRef.department?.id
+                }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="serviceApp.jobHistory.employee">Employee</span></dt>
+          <dd>
+            @if (jobHistory()!.employee) {
+              <div>
+                <a [routerLink]="['/employee-finance-app-suffix', jobHistory()!.employee?.id, 'view']">{{ jobHistoryRef.employee?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/job-history-finance-app-suffix', jobHistoryRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

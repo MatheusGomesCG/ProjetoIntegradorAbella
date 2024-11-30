@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (employee(); as employeeRef) {
+      <div>
+        <h2 data-cy="employeeDetailsHeading"><span jhiTranslate="serviceApp.employee.detail.title">Employee</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">Código</span></dt>
+          <dd>
+            <span>{{ employeeRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.firstName">First Name</span></dt>
+          <dd>
+            <span>{{ employeeRef.firstName }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.lastName">Last Name</span></dt>
+          <dd>
+            <span>{{ employeeRef.lastName }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.email">Email</span></dt>
+          <dd>
+            <span>{{ employeeRef.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.phoneNumber">Phone Number</span></dt>
+          <dd>
+            <span>{{ employeeRef.phoneNumber }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.hireDate">Hire Date</span></dt>
+          <dd>
+            <span>{{ employeeRef.hireDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.salary">Salary</span></dt>
+          <dd>
+            <span>{{ employeeRef.salary }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.commissionPct">Commission Pct</span></dt>
+          <dd>
+            <span>{{ employeeRef.commissionPct }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.manager">Manager</span></dt>
+          <dd>
+            @if (employee()!.manager) {
+              <div>
+                <a [routerLink]="['/employee-finance-app-suffix', employee()!.manager?.id, 'view']">{{ employeeRef.manager?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="serviceApp.employee.department">Department</span></dt>
+          <dd>
+            @if (employee()!.department) {
+              <div>
+                <a [routerLink]="['/department-finance-app-suffix', employee()!.department?.id, 'view']">{{
+                  employeeRef.department?.id
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/employee-finance-app-suffix', employeeRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

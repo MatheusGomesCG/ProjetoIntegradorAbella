@@ -1,0 +1,10 @@
+{
+  "serviceApp": {
+    "AccountType": {
+      "null": "",
+      "SAVINGS": "SAVINGS",
+      "CURRENT": "CURRENT",
+      "CREDIT": "CREDIT"
+    }
+  }
+}

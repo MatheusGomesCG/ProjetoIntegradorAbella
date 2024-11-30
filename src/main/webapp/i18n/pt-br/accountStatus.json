@@ -1,0 +1,10 @@
+{
+  "serviceApp": {
+    "AccountStatus": {
+      "null": "",
+      "ACTIVE": "ACTIVE",
+      "SUSPENDED": "SUSPENDED",
+      "CLOSED": "CLOSED"
+    }
+  }
+}

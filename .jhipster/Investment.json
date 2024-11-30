@@ -1,0 +1,48 @@
+{
+  "angularJSSuffix": "financeAppSuffix",
+  "annotations": {
+    "changelogDate": "20241129200329"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "investmentName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "investmentType",
+      "fieldType": "InvestmentType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "STOCKS,BONDS,REAL_ESTATE,MUTUAL_FUNDS,CDI"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Investment",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "accountUser",
+      "otherEntityRelationshipName": "investment",
+      "relationshipName": "account",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

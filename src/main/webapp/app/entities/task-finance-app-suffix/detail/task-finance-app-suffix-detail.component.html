@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (task(); as taskRef) {
+      <div>
+        <h2 data-cy="taskDetailsHeading"><span jhiTranslate="serviceApp.task.detail.title">Task</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">Código</span></dt>
+          <dd>
+            <span>{{ taskRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.task.title">Title</span></dt>
+          <dd>
+            <span>{{ taskRef.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.task.description">Description</span></dt>
+          <dd>
+            <span>{{ taskRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.task.job">Job</span></dt>
+          <dd>
+            @for (job of taskRef.jobs; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/job-finance-app-suffix', job.id, 'view']">{{ job?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/task-finance-app-suffix', taskRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

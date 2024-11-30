@@ -1,0 +1,164 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-investment-finance-app-suffix-heading"
+        data-cy="InvestmentCreateUpdateHeading"
+        jhiTranslate="serviceApp.investment.home.createOrEditLabel"
+      >
+        Criar ou editar Investment
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="serviceApp.investment.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let investmentNameRef = editForm.get('investmentName')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_investmentName" jhiTranslate="serviceApp.investment.investmentName">Investment Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="investmentName"
+            id="field_investmentName"
+            data-cy="investmentName"
+            formControlName="investmentName"
+          />
+          @if (investmentNameRef.invalid && (investmentNameRef.dirty || investmentNameRef.touched)) {
+            <div>
+              @if (editForm.get('investmentName')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let investmentTypeRef = editForm.get('investmentType')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_investmentType" jhiTranslate="serviceApp.investment.investmentType">Investment Type</label>
+          <select
+            class="form-control"
+            name="investmentType"
+            formControlName="investmentType"
+            id="field_investmentType"
+            data-cy="investmentType"
+          >
+            <option [ngValue]="null">{{ 'serviceApp.InvestmentType.null' | translate }}</option>
+            @for (investmentType of investmentTypeValues; track $index) {
+              <option [value]="investmentType">{{ 'serviceApp.InvestmentType.' + investmentType | translate }}</option>
+            }
+          </select>
+          @if (investmentTypeRef.invalid && (investmentTypeRef.dirty || investmentTypeRef.touched)) {
+            <div>
+              @if (editForm.get('investmentType')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let amountRef = editForm.get('amount')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_amount" jhiTranslate="serviceApp.investment.amount">Amount</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+          @if (amountRef.invalid && (amountRef.dirty || amountRef.touched)) {
+            <div>
+              @if (editForm.get('amount')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">O campo é obrigatório.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('amount')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo é do tipo numérico.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let startDateRef = editForm.get('startDate')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_startDate" jhiTranslate="serviceApp.investment.startDate">Start Date</label>
+          <div class="d-flex">
+            <input
+              id="field_startDate"
+              data-cy="startDate"
+              type="datetime-local"
+              class="form-control"
+              name="startDate"
+              formControlName="startDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (startDateRef.invalid && (startDateRef.dirty || startDateRef.touched)) {
+            <div>
+              @if (editForm.get('startDate')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">O campo é obrigatório.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('startDate')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >Este campo é do tipo data/hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_endDate" jhiTranslate="serviceApp.investment.endDate">End Date</label>
+          <div class="d-flex">
+            <input
+              id="field_endDate"
+              data-cy="endDate"
+              type="datetime-local"
+              class="form-control"
+              name="endDate"
+              formControlName="endDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_account" jhiTranslate="serviceApp.investment.account">Account</label>
+          <select
+            class="form-control"
+            id="field_account"
+            data-cy="account"
+            name="account"
+            formControlName="account"
+            [compareWith]="compareAccountUserFinanceAppSuffix"
+          >
+            <option [ngValue]="null"></option>
+            @for (accountUserOption of accountUsersSharedCollection; track $index) {
+              <option [ngValue]="accountUserOption">{{ accountUserOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Salvar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

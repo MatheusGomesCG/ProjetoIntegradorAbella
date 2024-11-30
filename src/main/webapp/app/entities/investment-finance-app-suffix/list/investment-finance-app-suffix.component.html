@@ -1,0 +1,164 @@
+<div>
+  <h2 id="page-heading" data-cy="InvestmentHeading">
+    <span jhiTranslate="serviceApp.investment.home.title">Investments</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="serviceApp.investment.home.refreshListLabel">Atualizar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-investment-finance-app-suffix"
+        [routerLink]="['/investment-finance-app-suffix/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="serviceApp.investment.home.createLabel">Criar novo Investment</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (investments?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="serviceApp.investment.home.notFound">Nenhum Investment encontrado</span>
+    </div>
+  }
+
+  @if (investments && investments.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">Código</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="investmentName">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.investment.investmentName">Investment Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="investmentType">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.investment.investmentType">Investment Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="amount">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.investment.amount">Amount</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="startDate">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.investment.startDate">Start Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="endDate">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.investment.endDate">End Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="account.id">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.investment.account">Account</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (investment of investments; track trackId(investment)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/investment-finance-app-suffix', investment.id, 'view']">{{ investment.id }}</a>
+              </td>
+              <td>{{ investment.investmentName }}</td>
+              <td [jhiTranslate]="'serviceApp.InvestmentType.' + (investment.investmentType ?? 'null')">
+                {{
+                  { null: '', STOCKS: 'STOCKS', BONDS: 'BONDS', REAL_ESTATE: 'REAL_ESTATE', MUTUAL_FUNDS: 'MUTUAL_FUNDS', CDI: 'CDI' }[
+                    investment.investmentType ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>{{ investment.amount }}</td>
+              <td>{{ investment.startDate | formatMediumDatetime }}</td>
+              <td>{{ investment.endDate | formatMediumDatetime }}</td>
+              <td>
+                @if (investment.account) {
+                  <div>
+                    <a [routerLink]="['/account-user-finance-app-suffix', investment.account.id, 'view']">{{ investment.account.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/investment-finance-app-suffix', investment.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Visualizar</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/investment-finance-app-suffix', investment.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(investment)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Excluir</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (investments && investments.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

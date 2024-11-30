@@ -1,0 +1,18 @@
+{
+  "angularJSSuffix": "financeAppSuffix",
+  "annotations": {
+    "changelogDate": "20241129200333"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "regionName",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Region",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

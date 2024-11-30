@@ -1,0 +1,133 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-employee-finance-app-suffix-heading"
+        data-cy="EmployeeCreateUpdateHeading"
+        jhiTranslate="serviceApp.employee.home.createOrEditLabel"
+      >
+        Criar ou editar Employee
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="serviceApp.employee.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_firstName" jhiTranslate="serviceApp.employee.firstName">First Name</label>
+          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_lastName" jhiTranslate="serviceApp.employee.lastName">Last Name</label>
+          <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_email" jhiTranslate="serviceApp.employee.email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_phoneNumber" jhiTranslate="serviceApp.employee.phoneNumber">Phone Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            id="field_phoneNumber"
+            data-cy="phoneNumber"
+            formControlName="phoneNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hireDate" jhiTranslate="serviceApp.employee.hireDate">Hire Date</label>
+          <div class="d-flex">
+            <input
+              id="field_hireDate"
+              data-cy="hireDate"
+              type="datetime-local"
+              class="form-control"
+              name="hireDate"
+              formControlName="hireDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_salary" jhiTranslate="serviceApp.employee.salary">Salary</label>
+          <input type="number" class="form-control" name="salary" id="field_salary" data-cy="salary" formControlName="salary" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_commissionPct" jhiTranslate="serviceApp.employee.commissionPct">Commission Pct</label>
+          <input
+            type="number"
+            class="form-control"
+            name="commissionPct"
+            id="field_commissionPct"
+            data-cy="commissionPct"
+            formControlName="commissionPct"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_manager" jhiTranslate="serviceApp.employee.manager">Manager</label>
+          <select
+            class="form-control"
+            id="field_manager"
+            data-cy="manager"
+            name="manager"
+            formControlName="manager"
+            [compareWith]="compareEmployeeFinanceAppSuffix"
+          >
+            <option [ngValue]="null"></option>
+            @for (employeeOption of employeesSharedCollection; track $index) {
+              <option [ngValue]="employeeOption">{{ employeeOption.id }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_department" jhiTranslate="serviceApp.employee.department">Department</label>
+          <select
+            class="form-control"
+            id="field_department"
+            data-cy="department"
+            name="department"
+            formControlName="department"
+            [compareWith]="compareDepartmentFinanceAppSuffix"
+          >
+            <option [ngValue]="null"></option>
+            @for (departmentOption of departmentsSharedCollection; track $index) {
+              <option [ngValue]="departmentOption">{{ departmentOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Salvar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

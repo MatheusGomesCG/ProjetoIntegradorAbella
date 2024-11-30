@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (accountUser(); as accountUserRef) {
+      <div>
+        <h2 data-cy="accountUserDetailsHeading"><span jhiTranslate="serviceApp.accountUser.detail.title">Account User</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">Código</span></dt>
+          <dd>
+            <span>{{ accountUserRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.accountUser.accountNumber">Account Number</span></dt>
+          <dd>
+            <span>{{ accountUserRef.accountNumber }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.accountUser.accountType">Account Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'serviceApp.AccountType.' + (accountUserRef.accountType ?? 'null')">{{
+              { null: '', SAVINGS: 'SAVINGS', CURRENT: 'CURRENT', CREDIT: 'CREDIT' }[accountUserRef.accountType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.accountUser.balance">Balance</span></dt>
+          <dd>
+            <span>{{ accountUserRef.balance }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.accountUser.creationDate">Creation Date</span></dt>
+          <dd>
+            <span>{{ accountUserRef.creationDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.accountUser.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'serviceApp.AccountStatus.' + (accountUserRef.status ?? 'null')">{{
+              { null: '', ACTIVE: 'ACTIVE', SUSPENDED: 'SUSPENDED', CLOSED: 'CLOSED' }[accountUserRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.accountUser.owner">Owner</span></dt>
+          <dd>
+            @if (accountUser()!.owner) {
+              <div>
+                <a [routerLink]="['/employee-finance-app-suffix', accountUser()!.owner?.id, 'view']">{{ accountUserRef.owner?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/account-user-finance-app-suffix', accountUserRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

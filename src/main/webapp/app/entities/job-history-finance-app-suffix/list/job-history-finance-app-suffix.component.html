@@ -1,0 +1,172 @@
+<div>
+  <h2 id="page-heading" data-cy="JobHistoryHeading">
+    <span jhiTranslate="serviceApp.jobHistory.home.title">Job Histories</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="serviceApp.jobHistory.home.refreshListLabel">Atualizar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-job-history-finance-app-suffix"
+        [routerLink]="['/job-history-finance-app-suffix/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="serviceApp.jobHistory.home.createLabel">Criar novo Job History</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (jobHistories?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="serviceApp.jobHistory.home.notFound">Nenhum Job History encontrado</span>
+    </div>
+  }
+
+  @if (jobHistories && jobHistories.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">Código</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="startDate">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.jobHistory.startDate">Start Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="endDate">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.jobHistory.endDate">End Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="language">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.jobHistory.language">Language</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="job.id">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.jobHistory.job">Job</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="department.id">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.jobHistory.department">Department</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="employee.id">
+              <div class="d-flex">
+                <span jhiTranslate="serviceApp.jobHistory.employee">Employee</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (jobHistory of jobHistories; track trackId(jobHistory)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/job-history-finance-app-suffix', jobHistory.id, 'view']">{{ jobHistory.id }}</a>
+              </td>
+              <td>{{ jobHistory.startDate | formatMediumDatetime }}</td>
+              <td>{{ jobHistory.endDate | formatMediumDatetime }}</td>
+              <td [jhiTranslate]="'serviceApp.Language.' + (jobHistory.language ?? 'null')">
+                {{ { null: '', PORTUGUESE: 'PORTUGUESE', ENGLISH: 'ENGLISH' }[jobHistory.language ?? 'null'] }}
+              </td>
+              <td>
+                @if (jobHistory.job) {
+                  <div>
+                    <a [routerLink]="['/job-finance-app-suffix', jobHistory.job.id, 'view']">{{ jobHistory.job.id }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (jobHistory.department) {
+                  <div>
+                    <a [routerLink]="['/department-finance-app-suffix', jobHistory.department.id, 'view']">{{
+                      jobHistory.department.id
+                    }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (jobHistory.employee) {
+                  <div>
+                    <a [routerLink]="['/employee-finance-app-suffix', jobHistory.employee.id, 'view']">{{ jobHistory.employee.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/job-history-finance-app-suffix', jobHistory.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Visualizar</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/job-history-finance-app-suffix', jobHistory.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(jobHistory)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Excluir</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (jobHistories && jobHistories.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

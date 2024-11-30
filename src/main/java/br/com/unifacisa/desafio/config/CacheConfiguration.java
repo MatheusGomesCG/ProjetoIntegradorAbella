@@ -50,6 +50,24 @@ public class CacheConfiguration {
             createCache(cm, br.com.unifacisa.desafio.domain.User.class.getName());
             createCache(cm, br.com.unifacisa.desafio.domain.Authority.class.getName());
             createCache(cm, br.com.unifacisa.desafio.domain.User.class.getName() + ".authorities");
+            createCache(cm, br.com.unifacisa.desafio.domain.AccountUser.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.AccountUser.class.getName() + ".transactions");
+            createCache(cm, br.com.unifacisa.desafio.domain.AccountUser.class.getName() + ".investments");
+            createCache(cm, br.com.unifacisa.desafio.domain.Country.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Department.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Department.class.getName() + ".employees");
+            createCache(cm, br.com.unifacisa.desafio.domain.Employee.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Employee.class.getName() + ".jobs");
+            createCache(cm, br.com.unifacisa.desafio.domain.Employee.class.getName() + ".accounts");
+            createCache(cm, br.com.unifacisa.desafio.domain.Investment.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Job.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Job.class.getName() + ".tasks");
+            createCache(cm, br.com.unifacisa.desafio.domain.JobHistory.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Location.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Region.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Task.class.getName());
+            createCache(cm, br.com.unifacisa.desafio.domain.Task.class.getName() + ".jobs");
+            createCache(cm, br.com.unifacisa.desafio.domain.Transaction.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

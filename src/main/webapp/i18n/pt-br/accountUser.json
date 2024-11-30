@@ -1,0 +1,31 @@
+{
+  "serviceApp": {
+    "accountUser": {
+      "home": {
+        "title": "Account Users",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Account User",
+        "createOrEditLabel": "Criar ou editar Account User",
+        "notFound": "Nenhum Account User encontrado"
+      },
+      "created": "Um novo Account User foi criado com o identificador {{ param }}",
+      "updated": "Um Account User foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Account User foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Account User {{ id }}?"
+      },
+      "detail": {
+        "title": "Account User"
+      },
+      "id": "ID",
+      "accountNumber": "Account Number",
+      "accountType": "Account Type",
+      "balance": "Balance",
+      "creationDate": "Creation Date",
+      "status": "Status",
+      "transaction": "Transaction",
+      "investment": "Investment",
+      "owner": "Owner"
+    }
+  }
+}

@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (investment(); as investmentRef) {
+      <div>
+        <h2 data-cy="investmentDetailsHeading"><span jhiTranslate="serviceApp.investment.detail.title">Investment</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">Código</span></dt>
+          <dd>
+            <span>{{ investmentRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.investment.investmentName">Investment Name</span></dt>
+          <dd>
+            <span>{{ investmentRef.investmentName }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.investment.investmentType">Investment Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'serviceApp.InvestmentType.' + (investmentRef.investmentType ?? 'null')">{{
+              { null: '', STOCKS: 'STOCKS', BONDS: 'BONDS', REAL_ESTATE: 'REAL_ESTATE', MUTUAL_FUNDS: 'MUTUAL_FUNDS', CDI: 'CDI' }[
+                investmentRef.investmentType ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.investment.amount">Amount</span></dt>
+          <dd>
+            <span>{{ investmentRef.amount }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.investment.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ investmentRef.startDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.investment.endDate">End Date</span></dt>
+          <dd>
+            <span>{{ investmentRef.endDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.investment.account">Account</span></dt>
+          <dd>
+            @if (investment()!.account) {
+              <div>
+                <a [routerLink]="['/account-user-finance-app-suffix', investment()!.account?.id, 'view']">{{
+                  investmentRef.account?.id
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/investment-finance-app-suffix', investmentRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

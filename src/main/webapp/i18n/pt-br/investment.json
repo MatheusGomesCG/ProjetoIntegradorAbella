@@ -1,0 +1,29 @@
+{
+  "serviceApp": {
+    "investment": {
+      "home": {
+        "title": "Investments",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Investment",
+        "createOrEditLabel": "Criar ou editar Investment",
+        "notFound": "Nenhum Investment encontrado"
+      },
+      "created": "Um novo Investment foi criado com o identificador {{ param }}",
+      "updated": "Um Investment foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Investment foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Investment {{ id }}?"
+      },
+      "detail": {
+        "title": "Investment"
+      },
+      "id": "ID",
+      "investmentName": "Investment Name",
+      "investmentType": "Investment Type",
+      "amount": "Amount",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "account": "Account"
+    }
+  }
+}

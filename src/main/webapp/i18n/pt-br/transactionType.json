@@ -1,0 +1,11 @@
+{
+  "serviceApp": {
+    "TransactionType": {
+      "null": "",
+      "DEPOSIT": "DEPOSIT",
+      "WITHDRAWAL": "WITHDRAWAL",
+      "TRANSFER": "TRANSFER",
+      "PAYMENT": "PAYMENT"
+    }
+  }
+}

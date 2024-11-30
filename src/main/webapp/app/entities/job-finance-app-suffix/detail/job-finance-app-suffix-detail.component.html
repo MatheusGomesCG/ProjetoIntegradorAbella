@@ -1,0 +1,59 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (job(); as jobRef) {
+      <div>
+        <h2 data-cy="jobDetailsHeading"><span jhiTranslate="serviceApp.job.detail.title">Job</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">Código</span></dt>
+          <dd>
+            <span>{{ jobRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.job.jobTitle">Job Title</span></dt>
+          <dd>
+            <span>{{ jobRef.jobTitle }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.job.minSalary">Min Salary</span></dt>
+          <dd>
+            <span>{{ jobRef.minSalary }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.job.maxSalary">Max Salary</span></dt>
+          <dd>
+            <span>{{ jobRef.maxSalary }}</span>
+          </dd>
+          <dt><span jhiTranslate="serviceApp.job.task">Task</span></dt>
+          <dd>
+            @for (task of jobRef.tasks; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/task-finance-app-suffix', task.id, 'view']">{{ task?.title }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+          <dt><span jhiTranslate="serviceApp.job.employee">Employee</span></dt>
+          <dd>
+            @if (job()!.employee) {
+              <div>
+                <a [routerLink]="['/employee-finance-app-suffix', job()!.employee?.id, 'view']">{{ jobRef.employee?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/job-finance-app-suffix', jobRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

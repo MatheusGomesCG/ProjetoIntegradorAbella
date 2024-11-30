@@ -1,0 +1,147 @@
+// Entidades existentes
+entity Region {
+    regionName String
+}
+
+entity Country {
+    countryName String
+}
+
+// Comentário ignorado
+/** Não é ignorado */
+entity Location {
+    streetAddress String
+    postalCode String
+    city String
+    stateProvince String
+}
+
+entity Department {
+    departmentName String required
+}
+
+/**
+ * Entidade Task.
+ * @author Equipe
+ */
+entity Task {
+    title String
+    description String
+}
+
+/**
+ * Entidade Employee.
+ */
+entity Employee {
+    firstName String
+    lastName String
+    email String
+    phoneNumber String
+    hireDate Instant
+    salary Long
+    commissionPct Long
+}
+
+entity Job {
+    jobTitle String
+    minSalary Long
+    maxSalary Long
+}
+
+entity JobHistory {
+    startDate Instant
+    endDate Instant
+    language Language
+}
+
+// Enumeração existente
+enum Language {
+    PORTUGUESE, ENGLISH
+}
+
+// Novas entidades para aplicações financeiras
+entity AccountUser {
+    accountNumber String required
+    accountType AccountType required
+    balance BigDecimal required
+    creationDate Instant required
+    status AccountStatus required
+}
+
+enum AccountType {
+    SAVINGS, CURRENT, CREDIT
+}
+
+enum AccountStatus {
+    ACTIVE, SUSPENDED, CLOSED
+}
+
+entity Transaction {
+    transactionDate Instant required
+    amount BigDecimal required
+    transactionType TransactionType required
+    description String
+}
+
+enum TransactionType {
+    DEPOSIT, WITHDRAWAL, TRANSFER, PAYMENT
+}
+
+entity Investment {
+    investmentName String required
+    investmentType InvestmentType required
+    amount BigDecimal required
+    startDate Instant required
+    endDate Instant
+}
+
+enum InvestmentType {
+    STOCKS, BONDS, REAL_ESTATE, MUTUAL_FUNDS, CDI
+}
+
+// Relacionamentos existentes
+relationship OneToOne {
+    Country{region} to Region
+}
+
+relationship OneToOne {
+    Location{country} to Country
+}
+
+relationship OneToOne {
+    Department{location} to Location
+}
+
+relationship ManyToMany {
+    Job{task(title)} to Task{job}
+}
+
+relationship OneToMany {
+    Employee to Job{employee}
+    Department to Employee{department}
+}
+
+relationship ManyToOne {
+    Employee{manager} to Employee
+}
+
+relationship OneToOne {
+    JobHistory{job} to Job
+    JobHistory{department} to Department
+    JobHistory{employee} to Employee
+}
+
+// Relacionamentos para entidades financeiras
+relationship OneToMany {
+    AccountUser{transaction} to Transaction{account}
+    Employee{account} to AccountUser{owner}
+    AccountUser{investment} to Investment{account}
+}
+
+// Paginação, DTO e serviços
+paginate JobHistory, Employee, AccountUser, Transaction, Investment with pagination
+dto * with mapstruct
+service all with serviceImpl except Employee, Job
+
+// Configuração Angular
+angularSuffix * with financeAppSuffix
